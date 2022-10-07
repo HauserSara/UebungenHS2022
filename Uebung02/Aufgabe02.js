@@ -1,5 +1,5 @@
 function wuerfeln() {
-    return Math.round(5*Math.random()+1);
+    return Math.ceil(6*Math.random());
 }
 
 a = wuerfeln();

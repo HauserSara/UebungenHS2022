@@ -1,6 +1,8 @@
+"use strict";
+
 function wuerfeln() {
     return Math.ceil(6*Math.random());
 }
 
-a = wuerfeln();
+var a = wuerfeln();
 console.log(a);

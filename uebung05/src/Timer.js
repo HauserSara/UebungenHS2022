@@ -25,12 +25,16 @@ class Timer extends Component {
     set_timer(event) {
         time = event.target.value;
         this.setState({count: time});
+        if (this.state.count !== "") {
+            this.setState({msg: ""});
+        }
     }
 
     update() {
         this.setState({count: this.state.count - 1});
         if (this.state.count <= 1) {
             this.setState({count: ""});
+            time = "";
             this.setState({msg: "FERTIG"})
             clearInterval(this.interval);
             this.interval = null;
@@ -59,7 +63,8 @@ class Timer extends Component {
                 <TextField value={time} onChange={this.set_timer} label="Zeit" type="number"/>
             </Grid>
             }
-            <p style={{fontFamily:"roboto", marginLeft:33}}>{this.state.count}{this.state.msg}</p>
+            <p style={{fontFamily:"roboto", marginLeft:33}}>{this.state.count} <br/>
+            {this.state.msg}</p>
             <Button variant="contained" onClick={this.start_timer} style={{marginLeft: 20}}>Start</Button>
         </>)
     }

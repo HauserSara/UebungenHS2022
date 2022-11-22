@@ -37,7 +37,7 @@ manager = LoginManager("jsk2e1urh3fku371", token_url="/auth/login", use_cookie=T
 manager.cookie_name = "ch.fhnw.testapp_hezd736"
 
 DB = {"sara": {"name": "Sara Hauser",
-                "email": "sara.hauser@roggli.org",
+                "email": "sara.hauser@gmx.net",
                 "password": "sara"},
       "celine": {"name": "celine ",
                 "email": "celine@gmx.net",

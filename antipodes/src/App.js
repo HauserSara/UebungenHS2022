@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { Typography } from '@mui/material';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import axios from "axios";
@@ -129,11 +130,10 @@ function App() {
 
   return (
     <>
+      <Typography variant='h3' align='center' sx={{m:5}}>Antipode</Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField label="Breite" variant="outlined" type={"number"} defaultValue={position[0]} onChange={(event) => {var lng = position[1]; setPosition([event.target.value, lng])}}/> 
-        </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} align = "center">
+          <TextField label="Breite" variant="outlined" sx={{mr:5}} type={"number"} defaultValue={position[0]} onChange={(event) => {var lng = position[1]; setPosition([event.target.value, lng])}}/> 
           <TextField label="Länge" variant="outlined" type={"number"} defaultValue={position[1]} onChange={(event) => {var lat = position[0]; setPosition([lat, event.target.value])}}/>
         </Grid>
         <Grid item xs={12}>
@@ -176,7 +176,7 @@ function App() {
         <>
           <h4>Position der Ursprungskoordinaten</h4>
           <MapContainer className="map" center={position} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"left", margin:"10px"}}>
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
+            <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
             <Marker color="green" position={ position }>
               <Popup>{position[0]}<br/>{position[1]}</Popup>
             </Marker>
@@ -200,7 +200,7 @@ function App() {
 
       {ortho &&
         <>
-          <MapContainer center={position} zoom={10} scrollWheelZoom={true} style={{ height: "400px", width: "48%", float:"left", margin:"10px"}}>
+          <MapContainer center={position} zoom={10} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"left", margin:"10px"}}>
             <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" attribution="&copy; swisstopo"/>
             <Marker color="green" position={position}>
               <Popup>{position[0]}<br/>{position[1]}</Popup>
@@ -208,7 +208,7 @@ function App() {
             <FlyMapTo/>
           </MapContainer>
 
-          <MapContainer center={transform?.geometry.coordinates} zoom={10} scrollWheelZoom={true} style={{ height: "400px", width: "48%", float:"right", margin:"10px"}}>
+          <MapContainer center={transform?.geometry.coordinates} zoom={10} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px"}}>
             <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" attribution="&copy; swisstopo"/>
             <Marker color="green" position={transform?.geometry.coordinates}>
               <Popup>{posnew?.geometry.coordinates[0]}<br/>{posnew?.geometry.coordinates[1]}</Popup>

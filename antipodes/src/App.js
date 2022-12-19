@@ -13,7 +13,7 @@ function App() {
   const [error, setError] = useState(null);
   const [position, setPosition] = useState([47.536, 7.643]);
 
-  const url =`https://vm13.sourcelab.ch/antipodes?lat=${position[1]}&lng=${position[0]}`
+  const url =`https://vm13.sourcelab.ch/antipodes?lat=${position[0]}&lng=${position[1]}`
 
 //------------------- Karte -------------------------------------------------------------
   useEffect(() => {
@@ -159,14 +159,14 @@ function App() {
           <Typography align='center'>ERROR API Aufruf fehlgeschlagen</Typography>{console.log(error)}<br/>
         </>
       }
-      
+
       <Grid sx={{mt:5}} style={{display:"flex"}}>
         {data &&
-          <Typography>Position der Ursprungskoordinaten</Typography>
+          <Typography variant='h5'>Position der Ursprungskoordinaten</Typography>
         }
 
         {transform &&
-          <Typography>Position des Antipodes</Typography>
+          <Typography variant='h5'>Position des Antipodes</Typography>
         }
       </Grid>
 

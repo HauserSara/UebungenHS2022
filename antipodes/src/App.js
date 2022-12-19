@@ -119,13 +119,13 @@ function App() {
 
   return (
     <>
-      <AppBar position="sticky" sx={{backgroundColor: "black", p:2}}>
-        <Toolbar align="center">
-          <Grid item xs={12} align="center">
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={() => {umrechnen()}}>Calculate Coordinates</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={ () => {do_download()}}>View Point</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={ () => {test()}} >View Antipode</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white'}} onClick={ () => {orthofoto()}}>View Orthofoto</Button>
+      <AppBar position="sticky" sx={{backgroundColor: "black", p:2, display:"grid", gridTemplateColumns: "1fr 1fr 1fr 1fr"}}>
+        <Toolbar>
+          <Grid item xs={12} align="center" sx={{display:'flex', alignItems:"center", justifyContent:"center"}}>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:1}} onClick={() => {umrechnen()}}>Calculate Coordinates</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:2}} onClick={ () => {do_download()}}>View Point</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:3}} onClick={ () => {test()}} >View Antipode</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:4}} onClick={ () => {orthofoto()}}>View Orthofoto</Button>
           </Grid>
         </Toolbar>
       </AppBar>
@@ -149,9 +149,7 @@ function App() {
       }
 
       {loading &&
-        <>
-          <Typography align='center'>API Aufruf, bitte warten!</Typography><br/>
-        </>
+          <Typography align='center'>API Aufruf, bitte warten!</Typography>
       }
 
       {error &&
@@ -160,13 +158,15 @@ function App() {
         </>
       }
 
-      <Grid sx={{mt:5}} style={{display:"flex"}}>
+      <Grid sx={{mt:5, ml:1, mr:1, display:"grid", gridTemplateColumns:"48%"}}>
         {data &&
-          <Typography variant='h5'>Position der Ursprungskoordinaten</Typography>
+          <>
+            <Typography sx={{display:"flex", gridColumn:1, alignItems:"center", justifyContent:"center"}} variant='h5'>Position der Ursprungskoordinaten</Typography>
+          </>
         }
 
         {transform &&
-          <Typography variant='h5'>Position des Antipodes</Typography>
+          <Typography sx={{display:"flex", gridColumn:2, alignItems:"center", justifyContent:"center"}} variant='h5'>Position des Antipodes</Typography>
         }
       </Grid>
 

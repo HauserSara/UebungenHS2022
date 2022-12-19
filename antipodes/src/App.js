@@ -28,8 +28,8 @@ function App() {
 
 //-------------------Funktion test (für Umrechnung)------------------------------------
   function test() {
-    var url = `http://geodesy.geo.admin.ch/reframe/wgs84tolv95?easting=7&northing=47&format=json`;
-    //var url = `https://vm13.sourcelab.ch/antipodes?lat=${position[1]}&lng=${position[0]}` 
+    //var url = `http://geodesy.geo.admin.ch/reframe/wgs84tolv95?easting=7&northing=47&format=json`;
+    var url = `https://vm13.sourcelab.ch/antipodes?lat=${position[1]}&lng=${position[0]}` 
     
     setLoading(true);
       axios
@@ -88,7 +88,7 @@ function App() {
   console.log(data);
 
 //-------------------Orthofoto -------------------------------------------------------
-  function Orthofoto() {
+  function orthofoto() {
     // TODO: Parametrisieren
     //var url = "https://vm1.sourcelab.ch/geodetic/line?startlat=47.5349&startlng=7.6415&endlat=8.9738&endlng=-79.5068&pts=100";
     var url = `https://vm13.sourcelab.ch/antipodes?lat=${position[0]}&lng=${position[1]}` 
@@ -122,7 +122,7 @@ function App() {
 
     const map = useMap()
     useEffect(() => {
-        map.flyTo([posnew?.geometry.coordinates[0], posnew?.geometry.coordinates[1]])
+        map.flyTo(transform?.geometry.coordinates)
     },)
     return null
 }
@@ -143,17 +143,17 @@ function App() {
           <Button variant="contained" color="warning" onClick={ () => {do_download() } }>View Point</Button>
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" color="error" onClick={ () => {Orthofoto() } }>View Antipode</Button>
+          <Button variant="contained" color="error" onClick={ () => {test() } }>View Antipode</Button>
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" color="secondary" onClick={ () => {Orthofoto() } }>View Orthofoto</Button>
+          <Button variant="contained" color="secondary" onClick={ () => {orthofoto() } }>View Orthofoto</Button>
         </Grid>
       </Grid>
 
       {posnew &&
         <>
           <div className="text-3xl font-bold underline">
-            <h2>Koordinaten des antipodes:</h2>
+            <h2>Koordinaten des Antipodes:</h2>
             <div>Breite: {posnew?.geometry.coordinates[0]}</div>
             <div>Länge: {posnew?.geometry.coordinates[1]}</div>
           </div>
@@ -174,6 +174,7 @@ function App() {
 
       {data &&
         <>
+          <h4>Position der Ursprungskoordinaten</h4>
           <MapContainer className="map" center={position} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"left", margin:"10px"}}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
             <Marker color="green" position={ position }>
@@ -184,11 +185,32 @@ function App() {
         </>
       }
 
+      {transform &&
+        <>
+          <h4>Position des Antipodes</h4>
+          <MapContainer center={transform?.geometry.coordinates} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px"}}>
+            <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
+            <Marker color="green" position={transform?.geometry.coordinates}>
+              <Popup>{posnew?.geometry.coordinates[0]}<br/>{posnew?.geometry.coordinates[1]}</Popup>
+            </Marker>
+            <FlyMapToAntipode/>
+          </MapContainer>
+        </>
+      }
+
       {ortho &&
         <>
-          <MapContainer className="map" center={[posnew?.geometry.coordinates[0], posnew?.geometry.coordinates[1]]} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px"}}>
+          <MapContainer center={position} zoom={10} scrollWheelZoom={true} style={{ height: "400px", width: "48%", float:"left", margin:"10px"}}>
             <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" attribution="&copy; swisstopo"/>
-            <Marker color="green" position={[posnew?.geometry.coordinates[0], posnew?.geometry.coordinates[1]]}>
+            <Marker color="green" position={position}>
+              <Popup>{position[0]}<br/>{position[1]}</Popup>
+            </Marker>
+            <FlyMapTo/>
+          </MapContainer>
+
+          <MapContainer center={transform?.geometry.coordinates} zoom={10} scrollWheelZoom={true} style={{ height: "400px", width: "48%", float:"right", margin:"10px"}}>
+            <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" attribution="&copy; swisstopo"/>
+            <Marker color="green" position={transform?.geometry.coordinates}>
               <Popup>{posnew?.geometry.coordinates[0]}<br/>{posnew?.geometry.coordinates[1]}</Popup>
             </Marker>
             <FlyMapToAntipode/>

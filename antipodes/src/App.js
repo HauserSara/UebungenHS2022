@@ -13,7 +13,7 @@ function App() {
   const [error, setError] = useState(null);
   const [position, setPosition] = useState([47.536, 7.643]);
 
-  const url =`https://vm13.sourcelab.ch/antipodes?lat=${position[0]}&lng=${position[1]}`
+  const url =`https://vm13.sourcelab.ch/calculateantipode?lat=${position[0]}&lng=${position[1]}`
 
 //------------------- Karte -------------------------------------------------------------
   useEffect(() => {
@@ -26,8 +26,8 @@ function App() {
     });
     },[]);
 
-//------------------- Funktion test (für Umrechnung) ------------------------------------
-  function test() {
+//------------------- Antipode anzeigen (für Button "View Antipode") --------------------
+  function antipode() {
 
     setLoading(true);
       axios
@@ -44,7 +44,7 @@ function App() {
     }
     console.log(transform);
 
-//------------------- Umrechnen (für Button "Calculate Coordinates") ---------------------
+//------------------- Koordinaten umrechnen (für Button "Calculate Coordinates") --------
   function umrechnen() {
     
     setLoading(true);
@@ -62,8 +62,8 @@ function App() {
     }
     console.log(posnew);
 
-//------------------- Umrechnen (für Button "Calculate Coordinates") -------------------
-  function do_download() {
+//------------------- Punkt anzeigen (für Button "View Point") -------------------------
+  function point() {
 
     setLoading(true);
       axios
@@ -117,14 +117,15 @@ function App() {
     return null
 }
 
+//----------- Design: GUI (mit Buttons, Textfields und Maps) ---------------------------
   return (
     <>
       <AppBar position="sticky" sx={{backgroundColor: "black", p:2, display:"grid", gridTemplateColumns: "1fr 1fr 1fr 1fr"}}>
         <Toolbar>
           <Grid item xs={12} align="center" sx={{display:'flex', alignItems:"center", justifyContent:"center"}}>
             <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:1}} onClick={() => {umrechnen()}}>Calculate Coordinates</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:2}} onClick={ () => {do_download()}}>View Point</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:3}} onClick={ () => {test()}} >View Antipode</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:2}} onClick={ () => {point()}}>View Point</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:3}} onClick={ () => {antipode()}} >View Antipode</Button>
             <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:4}} onClick={ () => {orthofoto()}}>View Orthofoto</Button>
           </Grid>
         </Toolbar>

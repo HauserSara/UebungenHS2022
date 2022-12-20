@@ -121,13 +121,13 @@ function antipode() {
 //----------- Design: GUI (mit Buttons, Textfields und Maps) ---------------------------
   return (
     <>
-      <AppBar position="sticky" sx={{backgroundColor: "black", p:2}}>
-        <Toolbar sx={{display:'flex', alignItems:"center", justifyContent:"center"}}>
+      <AppBar position="sticky" sx={{backgroundColor: "black", pt:2}}>
+        <Toolbar sx={{display:'flex', flexWrap:'wrap', flexGrow:1, flexShrink:1, alignItems:"center", justifyContent:"center"}}>
           <Grid item xs={12} align="center">
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={() => {umrechnen()}}>Calculate Coordinates</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={() => {point()}}>View Point</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={() => {antipode()}} >View Antipode</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={() => {orthofoto()}}>View Orthofoto</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {umrechnen()}}>Calculate Coordinates</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {point()}}>View Point</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {antipode()}} >View Antipode</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {orthofoto()}}>View Orthofoto</Button>
           </Grid>
         </Toolbar>
       </AppBar>

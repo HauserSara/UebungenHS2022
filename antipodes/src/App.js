@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import axios from "axios";
 
 function App() {
+
   const [data, setData] = useState(null);
   const [ortho, setOrtho] = useState(null);
   const [transform, setTrans] = useState(null);
@@ -25,24 +26,6 @@ function App() {
     shadowUrl: require("leaflet/dist/images/marker-shadow.png")
     });
     },[]);
-
-//------------------- Antipode anzeigen (für Button "View Antipode") --------------------
-  function antipode() {
-
-    setLoading(true);
-      axios
-        .get(url)
-        .then((response) => {
-          setTrans(response.data);
-        })
-        .catch((err) => {
-          setError(err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-    console.log(transform);
 
 //------------------- Koordinaten umrechnen (für Button "Calculate Coordinates") --------
   function umrechnen() {
@@ -79,6 +62,24 @@ function App() {
         });
   }
   console.log(data);
+
+//------------------- Antipode anzeigen (für Button "View Antipode") --------------------
+function antipode() {
+
+  setLoading(true);
+    axios
+      .get(url)
+      .then((response) => {
+        setTrans(response.data);
+      })
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+  console.log(transform);
 
 //------------------- Orthofoto -------------------------------------------------------
   function orthofoto() {
@@ -120,13 +121,13 @@ function App() {
 //----------- Design: GUI (mit Buttons, Textfields und Maps) ---------------------------
   return (
     <>
-      <AppBar position="sticky" sx={{backgroundColor: "black", p:2, display:"grid", gridTemplateColumns: "1fr 1fr 1fr 1fr"}}>
-        <Toolbar>
-          <Grid item xs={12} align="center" sx={{display:'flex', alignItems:"center", justifyContent:"center"}}>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:1}} onClick={() => {umrechnen()}}>Calculate Coordinates</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:2}} onClick={ () => {point()}}>View Point</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:3}} onClick={ () => {antipode()}} >View Antipode</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, gridColumn:4}} onClick={ () => {orthofoto()}}>View Orthofoto</Button>
+      <AppBar position="sticky" sx={{backgroundColor: "black", p:2}}>
+        <Toolbar sx={{display:'flex', alignItems:"center", justifyContent:"center"}}>
+          <Grid item xs={12} align="center">
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={() => {umrechnen()}}>Calculate Coordinates</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={() => {point()}}>View Point</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={() => {antipode()}} >View Antipode</Button>
+            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4}} onClick={() => {orthofoto()}}>View Orthofoto</Button>
           </Grid>
         </Toolbar>
       </AppBar>
@@ -161,9 +162,7 @@ function App() {
 
       <Grid sx={{mt:5, ml:1, mr:1, display:"grid", gridTemplateColumns:"48%"}}>
         {data &&
-          <>
-            <Typography sx={{display:"flex", gridColumn:1, alignItems:"center", justifyContent:"center"}} variant='h5'>Position der Ursprungskoordinaten</Typography>
-          </>
+          <Typography sx={{display:"flex", gridColumn:1, alignItems:"center", justifyContent:"center"}} variant='h5'>Position der Ursprungskoordinaten</Typography>
         }
 
         {transform &&
@@ -175,7 +174,7 @@ function App() {
         <>
           <MapContainer className="map" center={position} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"left", margin:"10px"}}>
             <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
-            <Marker color="green" position={ position }>
+            <Marker color="green" position={position}>
               <Popup>{position[0]}<br/>{position[1]}</Popup>
             </Marker>
             <FlyMapTo/>
@@ -205,7 +204,7 @@ function App() {
             <FlyMapTo/>
           </MapContainer>
 
-          <MapContainer center={transform?.geometry.coordinates} zoom={10} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px"}}>
+          <MapContainer center={transform?.geometry.coordinates} zoom={10} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px", marginBottom:"80px"}}>
             <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" attribution="&copy; swisstopo"/>
             <Marker color="green" position={transform?.geometry.coordinates}>
               <Popup>{posnew?.geometry.coordinates[0]}<br/>{posnew?.geometry.coordinates[1]}</Popup>
@@ -214,6 +213,12 @@ function App() {
           </MapContainer>
         </>
       }
+
+      <AppBar position='fixed' sx={{backgroundColor: 'black', top: 'auto', bottom: 0}}>
+        <Toolbar sx={{display:'flex', alignItems:"center", justifyContent:"center"}}>
+          <Typography>Sara Hauser | Martina Meyer | Livia Rubi</Typography>
+        </Toolbar>
+      </AppBar>
     </>
   );
 }

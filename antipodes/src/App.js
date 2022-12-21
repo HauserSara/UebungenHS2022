@@ -43,7 +43,6 @@ function App() {
           setLoading(false);
         });
     }
-    console.log(posnew);
 
 //------------------- Punkt anzeigen (für Button "View Point") -------------------------
   function point() {
@@ -61,7 +60,6 @@ function App() {
           setLoading(false);
         });
   }
-  console.log(data);
 
 //------------------- Antipode anzeigen (für Button "View Antipode") --------------------
 function antipode() {
@@ -79,7 +77,6 @@ function antipode() {
         setLoading(false);
       });
   }
-  console.log(transform);
 
 //------------------- Orthofoto -------------------------------------------------------
   function orthofoto() {
@@ -97,7 +94,6 @@ function antipode() {
           setLoading(false);
         });
   }
-  console.log(ortho);
 
 //------------------- Map Position aktualisieren ---------------------------------------
   function FlyMapTo() {
@@ -105,8 +101,7 @@ function antipode() {
     const map = useMap()
     useEffect(() => {
         map.flyTo(position)
-    },)
-    return null
+    },);
   }
 
   function FlyMapToAntipode() {
@@ -114,9 +109,16 @@ function antipode() {
     const map = useMap()
     useEffect(() => {
         map.flyTo(transform?.geometry.coordinates)
-    },)
-    return null
-}
+    },);
+  }
+
+  function OrthoFlyMapToAntipode() {
+
+    const map = useMap()
+    useEffect(() => {
+        map.flyTo(ortho?.geometry.coordinates)
+    },);
+  }
 
 //----------- Design: GUI (mit Buttons, Textfields und Maps) ---------------------------
   return (
@@ -135,8 +137,8 @@ function antipode() {
       <Typography variant='h3' align='center' sx={{m:5}}>Antipode</Typography>
       <Grid container spacing={2} sx={{mb:2}}>
         <Grid item xs={12} align="center">
-          <TextField label="Breite" variant="outlined" sx={{mr:5}} type={"number"} defaultValue={position[0]} onChange={(event) => {var lng = position[1]; setPosition([event.target.value, lng])}}/> 
-          <TextField label="Länge" variant="outlined" type={"number"} defaultValue={position[1]} onChange={(event) => {var lat = position[0]; setPosition([lat, event.target.value])}}/>
+          <TextField label="Breite" variant="outlined" sx={{mr:5}} type={"number"} defaultValue={position[0]} onBlur={(event) => {var lng = position[1]; setPosition([event.target.value, lng])}}/> 
+          <TextField label="Länge" variant="outlined" type={"number"} defaultValue={position[1]} onBlur={(event) => {var lat = position[0]; setPosition([lat, event.target.value])}}/>
         </Grid>
       </Grid>
 
@@ -148,10 +150,6 @@ function antipode() {
             <Typography>Länge: {posnew?.geometry.coordinates[1]}</Typography>
           </Grid>
         </>
-      }
-
-      {loading &&
-          <Typography align='center'>API Aufruf, bitte warten!</Typography>
       }
 
       {error &&
@@ -174,7 +172,7 @@ function antipode() {
         <>
           <MapContainer className="map" center={position} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"left", margin:"10px"}}>
             <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
-            <Marker color="green" position={position}>
+            <Marker position={position}>
               <Popup>{position[0]}<br/>{position[1]}</Popup>
             </Marker>
             <FlyMapTo/>
@@ -186,7 +184,7 @@ function antipode() {
         <>
           <MapContainer center={transform?.geometry.coordinates} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px"}}>
             <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
-            <Marker color="green" position={transform?.geometry.coordinates}>
+            <Marker position={transform?.geometry.coordinates}>
               <Popup>{posnew?.geometry.coordinates[0]}<br/>{posnew?.geometry.coordinates[1]}</Popup>
             </Marker>
             <FlyMapToAntipode/>
@@ -198,18 +196,18 @@ function antipode() {
         <>
           <MapContainer center={position} zoom={10} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"left", margin:"10px"}}>
             <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" attribution="&copy; swisstopo"/>
-            <Marker color="green" position={position}>
+            <Marker position={position}>
               <Popup>{position[0]}<br/>{position[1]}</Popup>
             </Marker>
             <FlyMapTo/>
           </MapContainer>
 
-          <MapContainer center={transform?.geometry.coordinates} zoom={10} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px", marginBottom:"80px"}}>
+          <MapContainer center={ortho?.geometry.coordinates} zoom={10} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px", marginBottom:"80px"}}>
             <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" attribution="&copy; swisstopo"/>
-            <Marker color="green" position={transform?.geometry.coordinates}>
-              <Popup>{posnew?.geometry.coordinates[0]}<br/>{posnew?.geometry.coordinates[1]}</Popup>
+            <Marker position={ortho?.geometry.coordinates}>
+              <Popup>{ortho?.geometry.coordinates[0]}<br/>{ortho?.geometry.coordinates[1]}</Popup>
             </Marker>
-            <FlyMapToAntipode/>
+            <OrthoFlyMapToAntipode/>
           </MapContainer>
         </>
       }

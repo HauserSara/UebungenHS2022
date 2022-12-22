@@ -126,25 +126,26 @@ function antipode() {
       <AppBar position="sticky" sx={{backgroundColor: "black", pt:2}}>
         <Toolbar sx={{display:'flex', flexWrap:'wrap', flexGrow:1, flexShrink:1, alignItems:"center", justifyContent:"center"}}>
           <Grid item xs={12} align="center">
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {umrechnen()}}>Calculate Coordinates</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {point()}}>View Point</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {antipode()}} >View Antipode</Button>
-            <Button variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {orthofoto()}}>View Orthofoto</Button>
+            <Button className='Button' variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {umrechnen()}}>Calculate Coordinates</Button>
+            <Button className='Button' variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {point()}}>View Point</Button>
+            <Button className='Button' variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {antipode()}} >View Antipode</Button>
+            <Button className='Button' variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white', mr:4, mb:2}} onClick={() => {orthofoto()}}>View Orthofoto</Button>
           </Grid>
         </Toolbar>
       </AppBar>
 
       <Typography variant='h3' align='center' sx={{m:5}}>Antipode</Typography>
-      <Grid container spacing={2} sx={{mb:2}}>
-        <Grid item xs={12} align="center">
-          <TextField label="Breite" variant="outlined" sx={{mr:5}} type={"number"} defaultValue={position[0]} onBlur={(event) => {var lng = position[1]; setPosition([event.target.value, lng])}}/> 
-          <TextField label="Länge" variant="outlined" type={"number"} defaultValue={position[1]} onBlur={(event) => {var lat = position[0]; setPosition([lat, event.target.value])}}/>
+
+      <Grid container spacing={2}>
+        <Grid item xs={12} sx={{display:'flex', alignItems:"center", justifyContent:"center"}}>
+          <TextField label="Breite" variant="outlined" type={"number"} sx={{m:1.5}} defaultValue={position[0]} onBlur={(event) => {var lng = position[1]; setPosition([event.target.value, lng])}}/> 
+          <TextField label="Länge" variant="outlined" type={"number"} sx={{m:1.5}} defaultValue={position[1]} onBlur={(event) => {var lat = position[0]; setPosition([lat, event.target.value])}}/>
         </Grid>
       </Grid>
 
       {posnew &&
         <>
-          <Grid align="center" sx={{mt:5}}>
+          <Grid align="center" sx={{mt:4}}>
             <Typography variant='h5' align='center' sx={{mb:1}}>Koordinaten des Antipodes:</Typography>
             <Typography>Breite: {posnew?.geometry.coordinates[0]}</Typography>
             <Typography>Länge: {posnew?.geometry.coordinates[1]}</Typography>
@@ -158,37 +159,37 @@ function antipode() {
         </>
       }
 
-      <Grid sx={{mt:5, ml:1, mr:1, display:"grid", gridTemplateColumns:"48%"}}>
-        {data &&
-          <Typography sx={{display:"flex", gridColumn:1, alignItems:"center", justifyContent:"center"}} variant='h5'>Position der Ursprungskoordinaten</Typography>
-        }
+      <Grid item xs={12} sx={{mt:5, display:"grid", gridTemplateColumns:"48%"}}>
 
-        {transform &&
-          <Typography sx={{display:"flex", gridColumn:2, alignItems:"center", justifyContent:"center"}} variant='h5'>Position des Antipodes</Typography>
-        }
       </Grid>
 
       {data &&
         <>
-          <MapContainer className="map" center={position} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"left", margin:"10px"}}>
-            <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
-            <Marker position={position}>
-              <Popup>{position[0]}<br/>{position[1]}</Popup>
-            </Marker>
-            <FlyMapTo/>
-          </MapContainer>
+          <Grid item xl={6} xs={12}>
+            <Typography sx={{display:"flex", gridColumn:1, alignItems:"center", justifyContent:"center"}} variant='h5'>Position der Ursprungskoordinaten</Typography>
+            <MapContainer item xs={6} className="map" center={position} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"left", margin:"10px"}}>
+              <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
+              <Marker position={position}>
+                <Popup>{position[0]}<br/>{position[1]}</Popup>
+              </Marker>
+              <FlyMapTo/>
+            </MapContainer>
+          </Grid>
         </>
       }
 
       {transform &&
         <>
-          <MapContainer center={transform?.geometry.coordinates} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px"}}>
-            <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
-            <Marker position={transform?.geometry.coordinates}>
-              <Popup>{posnew?.geometry.coordinates[0]}<br/>{posnew?.geometry.coordinates[1]}</Popup>
-            </Marker>
-            <FlyMapToAntipode/>
-          </MapContainer>
+          <Grid item xl={6} xs={12}>
+            <Typography sx={{display:"flex", gridColumn:2, alignItems:"center", justifyContent:"center"}} variant='h5'>Position des Antipodes</Typography>
+            <MapContainer item xs={6} center={transform?.geometry.coordinates} zoom={2} scrollWheelZoom={true} style={{height: "400px", width: "48%", float:"right", margin:"10px"}}>
+              <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
+              <Marker position={transform?.geometry.coordinates}>
+                <Popup>{posnew?.geometry.coordinates[0]}<br/>{posnew?.geometry.coordinates[1]}</Popup>
+              </Marker>
+              <FlyMapToAntipode/>
+            </MapContainer>
+          </Grid>
         </>
       }
 
@@ -220,5 +221,6 @@ function antipode() {
     </>
   );
 }
+//display block
 
 export default App;

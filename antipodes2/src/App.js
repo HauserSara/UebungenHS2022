@@ -171,7 +171,7 @@ function reload() {
 
       {posnew &&
         <>
-          <Grid align="center" sx={{mt:4}}>
+          <Grid align="center" sx={{mt:4, mb:4}}>
             <Typography variant='h6' align='center' sx={{mb:1}}>Koordinaten des Antipodes:</Typography>
             <Typography>Breite: {posnew?.geometry.coordinates[0]}</Typography>
             <Typography>Länge: {posnew?.geometry.coordinates[1]}</Typography>
@@ -185,7 +185,7 @@ function reload() {
         </>
       }
 
-      <Grid container spacing={2} sx={{mb:2, mt:2}}>
+      <Grid container spacing={2} sx={{mb:2}}>
         {data &&
           <>
             <Grid item sm={6} xs={12}>

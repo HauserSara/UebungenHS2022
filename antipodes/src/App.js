@@ -154,7 +154,7 @@ function reload() {
               <Button className='Button' variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white'}} onClick={() => {antipode()}} >View Antipode</Button>
             </Grid>
             <Grid item md={3} sm={6} xs={12} align="center">
-              <Button className='Button' variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white'}} onClick={() => {orthofoto()}}>View Orthofoto</Button>
+              <Button className='Button' variant="outlined" sx={{color: 'white', backgroundColor: 'none', borderColor: 'white'}} onClick={() => {orthofoto()}}>View Orthophoto</Button>
             </Grid>
           </Grid>
         </Toolbar>
